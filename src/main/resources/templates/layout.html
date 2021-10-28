@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en" th:lang="${#locale.language}" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      class="h-100">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <!--/*@thymesVar id="projectName" type="string"*/-->
+    <title data-layout-title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="${projectName}"></title>
+    <link rel="stylesheet" href="#" th:href="@{static/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="#" th:href="@{static/icons/bootstrap-icons.css}"/>
+    <link rel="stylesheet" href="#" th:href="@{static/css/layout.css}"/>
+    <!--/*@thymesVar id="linkCss" type="java.lang.String"*/-->
+    <link rel="stylesheet" th:href="@{static/{link}(link=${linkCss})}" th:unless="${#strings.isEmpty(linkCss)}"/>
+</head>
+<body class="d-flex flex-column h-100">
+<header>
+    <th:block layout:fragment="header">
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{index.html}">
+                    <img alt="#" class="d-inline-block align-baseline" height="24" src="#"
+                         th:src="@{static/img/favicon.png}"
+                         type="image/png" width="24"/>
+                    <!--/*@thymesVar id="projectName" type="string"*/-->
+                    <th:block th:text="${projectName}"><!--projectName--></th:block>
+                </a>
+                <button class="navbar-toggler" data-target="#navbarCollapse" data-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <!--/*@thymesVar id="pages" type="java.util.Map<java.lang.String,java.lang.String>"*/-->
+                        <!--/*@thymesVar id="entry" type="java.util.Map.Entry<java.lang.String,java.lang.String>"*/-->
+                        <th:block th:each="entry:${pages.entrySet()}"
+                                  th:with="page=${entry.key},file=${entry.value},titleKey=${'page.'+entry.key+'.title'},iconKey=${'page.'+entry.key+'.icon'}">
+                            <div class="nav-item" th:if="${#messages.msgOrNull(titleKey)}">
+                                <a class="nav-link text-nowrap" th:href="@{{file}(file=${file})}">
+                                    <i th:if="${#messages.msgOrNull(iconKey)}"
+                                       th:class="${'bi '+#messages.msgOrNull(iconKey)}"></i>
+                                    <th:block th:text="${#messages.msg(titleKey)}"></th:block>
+                                </a>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </th:block>
+</header>
+<!--/*@thymesVar id="title" type="java.lang.String"*/-->
+<!--/*@thymesVar id="menu" type="java.util.Set<com.github.lure0xaos.L0XMenuItem>"*/-->
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <th:block th:insert="~{layout::menu}" th:with="items=${menu}"></th:block>
+            </div>
+            <div class="col-8">
+                <th:block layout:fragment="content">
+                    <th:block th:utext="${content}"></th:block>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer mt-auto py-3">
+    <div class="container">
+        <th:block layout:fragment="footer">
+    <span class="text-muted text-left">
+        <!--/*@thymesVar id="projectName" type="string"*/-->
+        <th:block th:text="${projectName}">projectName</th:block>
+        <!--/*@thymesVar id="projectVersion" type="string"*/-->
+        v<th:block th:text="${projectVersion}">projectVersion</th:block>
+        -
+        <!--/*@thymesVar id="projectBuild" type="string"*/-->
+        <th:block th:text="${projectBuild}">projectBuild</th:block>
+    </span>
+            <span class="text-muted text-right">&copy;
+                <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
+                <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
+                <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
+        <th:block th:text="${projectInceptionYear}">projectInceptionYear</th:block>
+        <a th:href="${projectOrganizationUrl}">
+            <th:block th:text="${projectOrganizationName}">projectOrganizationName</th:block>
+        </a>
+    </span>
+        </th:block>
+    </div>
+</footer>
+<script type="application/javascript" src="#" th:src="@{static/js/bootstrap.bundle.min.js}"></script>
+<!--/*@thymesVar id="linkJs" type="java.lang.String"*/-->
+<script th:href="@{static/{link}(link=${linkJs})}" th:unless="${#strings.isEmpty(linkJs)}"
+        type="application/javascript"></script>
+<th:block layout:fragment="scripts"></th:block>
+</body>
+<span style="display: none">
+    <th:block th:fragment="rootmenu">
+        <!--/*@thymesVar id="items" type="java.util.Set<com.github.lure0xaos.L0XMenuItem>"*/-->
+        <th:block layot:insert="~{layout::menu}" th:with="items=${items}"></th:block>
+    </th:block>
+    <th:block th:fragment="menu">
+        <!--/*@thymesVar id="items" type="java.util.Set<com.github.lure0xaos.L0XMenuItem>"*/-->
+        <!--/*@thymesVar id="parent" type="com.github.lure0xaos.L0XMenuItem"*/-->
+        <!--/*@thymesVar id="item" type="com.github.lure0xaos.L0XMenuItem"*/-->
+        <div th:class="${'list-group px-2'+(parent != null?' border':'')+' collapse'+((parent == null || parent.visible)?' show':'')}"
+             th:id="${'items_' + (parent == null ? '' : parent.id) }">
+            <th:block th:each="item:${items}">
+                <a
+                        th:class="${'list-group-item border-bottom-0 list-group-item-action px-2 py-1'+ (item.visible?' active':'')}"
+                        th:if="${item.leaf}"
+                        th:id="${item.id}"
+                        th:href="@{{file}(file=${item.file})}"
+                        th:title="${item.title}"
+                >
+                    <i class="bi bi-book"></i>
+                    <th:block th:text="${item.label}"><!--item--></th:block>
+                </a>
+                <a
+                        data-toggle="collapse"
+                        class="list-group-item border-bottom-0 list-group-item-action px-2 py-1"
+                        th:unless="${item.leaf}"
+                        th:id="${item.id}"
+                        th:href="${'#items_'+(item.id)}"
+                        th:title="${item.title}"
+                        data-bs-toggle="collapse"
+                >
+                    <i class="" th:class="${'bi '+(parent eq null or item.visible?'bi-dash':'bi-plus')}"></i>
+                    <th:block th:text="${item.label}"><!--item--></th:block>
+                </a>
+                <th:block th:insert="~{layout::menu}" th:with="items=${item.children},parent=${item}">
+                    <!--recursive-->
+                </th:block>
+            </th:block>
+        </div>
+    </th:block>
+    <th:block th:fragment="breadcrumb">
+        <!--/*@thymesVar id="item" type="com.github.lure0xaos.L0XMenuItem"*/-->
+        <!--/*@thymesVar id="breadcrumb" type="java.util.List<com.github.lure0xaos.L0XMenuItem>"*/-->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <th:block th:each="item:${breadcrumb}">
+                    <li class="breadcrumb-item">
+                    <span th:unless="${item.leaf}">
+                        <th:block th:text="${item.label}"><!--label--></th:block>
+                    </span>
+                        <a href="#" th:href="@{{file}(file=${item.file})}" th:if="${item.leaf}">
+                            <th:block th:text="${item.label}"><!--label--></th:block>
+                        </a>
+                    </li>
+                </th:block>
+            </ol>
+        </nav>
+    </th:block>
+</span>
+</html>
