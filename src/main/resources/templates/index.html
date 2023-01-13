@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress HtmlUnknownAttribute -->
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout(title=#{page.index.title})}">
 <head>
@@ -32,8 +33,10 @@
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     th:attr="data-bs-target=${'#newsbody'+newsEntry.key}">
-                                <span th:text="${newsEntry.value['title']}"></span>
-                                <code th:text="${newsEntry.value['date']}"></code>
+                                <span class="w-100 me-3">
+                                <span class="float-start" th:text="${newsEntry.value['title']}"></span>
+                                <code class="float-end" th:text="${newsEntry.value['date']}"></code>
+                                </span>
                             </button>
                         </h2>
                         <div class="accordion-collapse collapse" th:id="${'newsbody'+newsEntry.key}"
@@ -51,7 +54,9 @@
             <div th:each="quoteEntry:${pageData['quote'].entrySet()}">
                 <div class="card quote" th:id="${'quotebody'+quoteEntry.key}">
                     <div class="card-body">
-                        <th:block th:text="${quoteEntry.value}"></th:block>
+                        <blockquote class="blockquote">
+                            <th:block th:text="${quoteEntry.value}"></th:block>
+                        </blockquote>
                     </div>
                 </div>
             </div>

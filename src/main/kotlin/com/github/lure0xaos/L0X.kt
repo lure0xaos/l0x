@@ -205,7 +205,7 @@ class L0X(private val charset: Charset, private val locale: Locale, private val 
                 KEY_TOPIC_HEADING to markdown.extractHeading(document),
                 KEY_TOPIC_CONTENT to markdown.render(document),
                 KEY_TOPIC_AUTHOR to meta.getValue(KEY_META_AUTHOR),
-                KEY_TOPIC_AUTHOR_KEY to meta.getValue(KEY_META_AUTHOR).lowercase(locale),
+                KEY_TOPIC_AUTHOR_KEY to meta.getValue(KEY_META_AUTHOR).replace(' ', '_').lowercase(locale),
                 KEY_TOPIC_DATE to dateTimeFormatter.format(
                     LocalDateTime.parse(
                         meta.getValue(KEY_META_DATE),

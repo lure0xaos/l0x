@@ -6,13 +6,11 @@ import java.util.*
 class L0XMenuItem : Comparable<L0XMenuItem> {
 
     companion object {
-        fun buildMenu(structure: List<Pair<String, String>>, topics: List<Map<String, String>>): Set<L0XMenuItem> =
-            buildMenu(structure, topics, null)
 
         fun buildMenu(
             hierarchy: List<Pair<String, String>>,
             topics: List<Map<String, String>>,
-            selected: Map<String, String>?,
+            selected: Map<String, String>? = null
         ): Set<L0XMenuItem> {
             val roots: MutableSet<L0XMenuItem> = TreeSet()
             topics.forEach { topic: Map<String, String> ->
