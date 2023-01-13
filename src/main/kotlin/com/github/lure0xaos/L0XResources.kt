@@ -58,7 +58,7 @@ object L0XResources {
     }
 
     fun resolveContext(baseName: String, resource: String, locale: Locale): URL =
-        getContextURL(baseName, locale)!!.resolve(resource)
+        (getContextURL(baseName, locale) ?: error("unable to resolve $baseName")).resolve(resource)
 
     fun readProperties(resource: String, charset: Charset, locale: Locale): Properties =
         getContextURL(resource, EXT_PROPERTIES, locale)!!.readResourceBundle(charset).toProperties()

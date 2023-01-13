@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress HtmlUnknownAttribute -->
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout(title=${topic.heading})}">
 <!--/*@thymesVar id="topic" type="java.util.Map<java.lang.String,java.lang.String>"*/-->
@@ -11,11 +12,15 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="float-end" th:text="${topic['genre']}"></div>
-    <th:block th:utext="${topic['content']}"></th:block>
-    <div class="float-end">
-        <cite th:text="${topic['date']}"></cite>
-        <address th:text="${topic['author']}"></address>
+    <div class="topic">
+        <div class="genre float-end" th:text="${topic['genre']}"></div>
+        <div class="content">
+            <th:block th:utext="${topic['content']}"></th:block>
+        </div>
+        <div class="address float-end">
+            <cite class="date" th:text="${topic['date']}"></cite>
+            <address class="author" th:text="${topic['author']}"></address>
+        </div>
     </div>
     <!--/*@thymesVar id="breadcrumb" type="java.util.List<com.github.lure0xaos.L0XMenuItem>"*/-->
     <th:block th:insert="~{layout::breadcrumb}" th:with="breadcrumb=${breadcrumb}"></th:block>

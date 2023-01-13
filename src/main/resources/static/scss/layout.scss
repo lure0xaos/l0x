@@ -1,0 +1,24 @@
+//@import "theme";
+
+$breadcrumb-divider: quote(">");
+
+//noinspection CssUnknownTarget
+@import "scss/bootstrap";
+
+$bootstrap-icons-font-dir: "../webjars/bootstrap-icons/font/fonts";
+//noinspection CssUnknownTarget
+@import "font/bootstrap-icons";
+
+main {
+  > .container {
+    padding: 60px 0;
+  }
+}
+
+cite {
+  color: $code-color;
+}
+
+address {
+  color: $code-color;
+}

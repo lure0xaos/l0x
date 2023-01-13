@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en" th:lang="${#locale.language}" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<!--suppress HtmlUnknownAttribute -->
+<html lang="en" th:lang="${#locale.language}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="https://www.thymeleaf.org"
       class="h-100">
 <head>
     <meta charset="UTF-8"/>
@@ -8,16 +10,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <!--/*@thymesVar id="projectName" type="string"*/-->
     <title data-layout-title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="${projectName}"></title>
-    <link rel="stylesheet" href="#" th:href="@{static/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" href="#" th:href="@{static/icons/bootstrap-icons.css}"/>
-    <link rel="stylesheet" href="#" th:href="@{static/css/layout.css}"/>
+    <link href="#" rel="stylesheet" th:href="@{static/scss/layout.css}"/>
     <!--/*@thymesVar id="linkCss" type="java.lang.String"*/-->
     <link rel="stylesheet" th:href="@{static/{link}(link=${linkCss})}" th:unless="${#strings.isEmpty(linkCss)}"/>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" data-bs-theme="dark">
 <header>
     <th:block layout:fragment="header">
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <nav class="navbar navbar-expand-md fixed-top bg-dark">
             <div class="container">
                 <a class="navbar-brand" th:href="@{index.html}">
                     <img alt="#" class="d-inline-block align-baseline" height="24" src="#"
@@ -26,7 +26,7 @@
                     <!--/*@thymesVar id="projectName" type="string"*/-->
                     <th:block th:text="${projectName}"><!--projectName--></th:block>
                 </a>
-                <button class="navbar-toggler" data-target="#navbarCollapse" data-toggle="collapse" type="button">
+                <button class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -65,31 +65,34 @@
         </div>
     </div>
 </main>
-<footer class="footer mt-auto py-3">
-    <div class="container">
-        <th:block layout:fragment="footer">
-    <span class="text-muted text-left">
+<footer>
+    <nav class="footer mt-auto py-3 fixed-bottom bg-dark">
+        <div class="container">
+            <th:block layout:fragment="footer">
+                <span class="text-muted text-left">
         <!--/*@thymesVar id="projectName" type="string"*/-->
         <th:block th:text="${projectName}">projectName</th:block>
-        <!--/*@thymesVar id="projectVersion" type="string"*/-->
+                    <!--/*@thymesVar id="projectVersion" type="string"*/-->
         v<th:block th:text="${projectVersion}">projectVersion</th:block>
         -
-        <!--/*@thymesVar id="projectBuild" type="string"*/-->
+                    <!--/*@thymesVar id="projectBuild" type="string"*/-->
         <th:block th:text="${projectBuild}">projectBuild</th:block>
     </span>
-            <span class="text-muted text-right">&copy;
-                <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
-                <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
-                <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
+                <span class="text-muted text-right">&copy;
+                    <!--/*@thymesVar id="projectOrganizationName" type="string"*/-->
+                    <!--/*@thymesVar id="projectOrganizationUrl" type="string"*/-->
+                    <!--/*@thymesVar id="projectInceptionYear" type="string"*/-->
         <th:block th:text="${projectInceptionYear}">projectInceptionYear</th:block>
         <a th:href="${projectOrganizationUrl}">
             <th:block th:text="${projectOrganizationName}">projectOrganizationName</th:block>
         </a>
     </span>
-        </th:block>
-    </div>
+            </th:block>
+        </div>
+    </nav>
 </footer>
-<script type="application/javascript" src="#" th:src="@{static/js/bootstrap.bundle.min.js}"></script>
+<script src="#" th:src="@{static/webjars/bootstrap/dist/js/bootstrap.bundle.min.js}"
+        type="application/javascript"></script>
 <!--/*@thymesVar id="linkJs" type="java.lang.String"*/-->
 <script th:href="@{static/{link}(link=${linkJs})}" th:unless="${#strings.isEmpty(linkJs)}"
         type="application/javascript"></script>
@@ -98,7 +101,7 @@
 <span style="display: none">
     <th:block th:fragment="rootmenu">
         <!--/*@thymesVar id="items" type="java.util.Set<com.github.lure0xaos.L0XMenuItem>"*/-->
-        <th:block layot:insert="~{layout::menu}" th:with="items=${items}"></th:block>
+        <th:block th:insert="~{layout::menu}" th:with="items=${items}"></th:block>
     </th:block>
     <th:block th:fragment="menu">
         <!--/*@thymesVar id="items" type="java.util.Set<com.github.lure0xaos.L0XMenuItem>"*/-->
@@ -118,7 +121,6 @@
                     <th:block th:text="${item.label}"><!--item--></th:block>
                 </a>
                 <a
-                        data-toggle="collapse"
                         class="list-group-item border-bottom-0 list-group-item-action px-2 py-1"
                         th:unless="${item.leaf}"
                         th:id="${item.id}"
@@ -139,13 +141,14 @@
         <!--/*@thymesVar id="item" type="com.github.lure0xaos.L0XMenuItem"*/-->
         <!--/*@thymesVar id="breadcrumb" type="java.util.List<com.github.lure0xaos.L0XMenuItem>"*/-->
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb bg-body-tertiary border rounded-3">
                 <th:block th:each="item:${breadcrumb}">
                     <li class="breadcrumb-item">
                     <span th:unless="${item.leaf}">
                         <th:block th:text="${item.label}"><!--label--></th:block>
                     </span>
-                        <a href="#" th:href="@{{file}(file=${item.file})}" th:if="${item.leaf}">
+                        <a class="link-body-emphasis fw-semibold text-decoration-none"
+                           href="#" th:href="@{{file}(file=${item.file})}" th:if="${item.leaf}">
                             <th:block th:text="${item.label}"><!--label--></th:block>
                         </a>
                     </li>

@@ -12,7 +12,7 @@ import org.thymeleaf.processor.IProcessor
 import org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
 import org.thymeleaf.templatemode.TemplateMode
 
-class LayoutDialect constructor(
+class LayoutDialect(
     private val sortingStrategy: SortingStrategy = AppendingStrategy(),
     private val autoHeadMerging: Boolean = true
 ) : AbstractProcessorDialect(DIALECT_NAME, DIALECT_PREFIX, DIALECT_PRECEDENCE) {
