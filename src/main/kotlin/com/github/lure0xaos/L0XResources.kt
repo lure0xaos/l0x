@@ -33,12 +33,12 @@ object L0XResources {
             }
 
             root.isProtocol(PROTOCOL_JAR) -> {
-                val rootUrl = URL(
+                val rootUrl = URI(
                     root.toExternalForm()
                         .removePrefix(root.protocol + ':')
                         .substringBeforeLast('!')
                         .substringBeforeLast('/')
-                )
+                ).toURL()
                 when {
                     rootUrl.isProtocol(PROTOCOL_FILE) -> return rootUrl.toPath()
                 }
@@ -95,7 +95,7 @@ object L0XResources {
 
 fun URL.resolve(resource: String): URL {
     val url: String = toExternalForm()
-    return URL(URL(if (url.endsWith('/')) url else "$url/"), resource)
+    return URI(URI(if (url.endsWith('/')) url else "$url/").toURL().toExternalForm() + resource).toURL()
 }
 
 fun URL.hasExtension(suffix: String): Boolean = toExternalForm().endsWith(suffix)
@@ -146,7 +146,7 @@ fun URL.getContextURL(locale: Locale): URL? {
     return control.getCandidateLocales(baseName, locale)
         .map { control.toBundleName(baseName, it) }
         .map { if (suffix.isEmpty()) it else control.toResourceName(it, suffix) }
-        .map(::URL)
+        .map { URI(it).toURL() }
         .firstOrNull(URL::exists)
 }
 
@@ -199,7 +199,7 @@ private fun Path.toUrl() = toUri().toURL()
 private fun URL.listJar(filter: (URL, Boolean) -> Boolean): MutableList<URL> {
     val resString: String = toExternalForm()
     val jarPath: String = resString.removePrefix("$protocol:").substringBeforeLast('!')
-    val jarUrl = URL(jarPath)
+    val jarUrl = URI(jarPath).toURL()
     val list: MutableList<URL> = mutableListOf()
     when {
         jarUrl.isProtocol(PROTOCOL_FILE) -> {
@@ -210,7 +210,7 @@ private fun URL.listJar(filter: (URL, Boolean) -> Boolean): MutableList<URL> {
                 if (resPath != entryName && entryName.startsWith(resPath)
                     && entryName.count { it == '/' } == 1
                 ) {
-                    val fullUrl = URL("$PROTOCOL_JAR:$jarPath!/$entryName")
+                    val fullUrl = URI("$PROTOCOL_JAR:$jarPath!/$entryName").toURL()
                     if (filter(fullUrl, jarEntry.isDirectory))
                         list += fullUrl
                 }
@@ -235,7 +235,7 @@ private fun URL.copyFiles(destination: Path) = toPath().also { path ->
 
 private fun URL.copyJar(destination: Path) {
     val resString: String = toExternalForm()
-    val jarUrl = URL(resString.removePrefix("$protocol:").substringBeforeLast('!'))
+    val jarUrl = URI(resString.removePrefix("$protocol:").substringBeforeLast('!')).toURL()
     val resPath = "${resString.substringAfterLast("!/")}/"
     when {
         jarUrl.isProtocol(PROTOCOL_FILE) -> {

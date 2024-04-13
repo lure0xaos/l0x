@@ -19,7 +19,7 @@ description = projectDescription
 extra["projectBuild"] = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
 
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.23"
     id("io.freefair.sass-java") version "8.1.0"
     id("io.freefair.sass-webjars") version "8.1.0"
     application
@@ -32,25 +32,25 @@ val webjarExplode: Configuration by configurations.creating { isTransitive = fal
 configurations.implementation.extendsFrom(configurations.named("webjarExplode"))
 
 dependencies {
-    implementation("org.thymeleaf:thymeleaf:3.1.1.RELEASE")
+    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
     implementation("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE")
     implementation("com.vladsch.flexmark:flexmark:0.64.8")
 
-    implementation("org.slf4j:slf4j-api:2.0.7")
-    implementation("org.slf4j:slf4j-jdk-platform-logging:2.0.7")
-    implementation("ch.qos.logback:logback-classic:1.4.8")
+    implementation("org.slf4j:slf4j-api:2.0.13")
+    implementation("org.slf4j:slf4j-jdk-platform-logging:2.0.13")
+    implementation("ch.qos.logback:logback-classic:1.5.5")
 //    implementation("org.slf4j:slf4j-simple:2.0.7")
 
-    webjarExplode("org.webjars.npm:bootstrap:5.3.0")
-    webjarExplode("org.webjars.npm:bootstrap-icons:1.10.5")
+    webjarExplode("org.webjars.npm:bootstrap:5.3.3")
+    webjarExplode("org.webjars.npm:bootstrap-icons:1.11.3")
 }
 
 kotlin {
-    jvmToolchain(JavaVersion.VERSION_16.majorVersion.toInt())
+    jvmToolchain(21)
 }
 
 val webjarDir: File =
-    buildDir.resolve("resources").resolve("main").resolve("static").resolve("webjars")
+    layout.buildDirectory.dir("resources/main/static/webjars").get().asFile
 
 val unzipWebjars: Sync = tasks.create<Sync>("unzipWebjars") {
     duplicatesStrategy = DuplicatesStrategy.WARN

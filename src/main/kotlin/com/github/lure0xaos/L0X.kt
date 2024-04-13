@@ -250,7 +250,7 @@ class L0X(private val charset: Charset, private val locale: Locale, private val 
             (args(args) + readMap(RES_CONFIG)).let {
                 L0X(
                     charset = charset(it[ARG_CHARSET] ?: StandardCharsets.UTF_8.name()),
-                    locale = Locale(it[ARG_LOCALE] ?: DEFAULT_LOCALE),
+                    locale = Locale.forLanguageTag(it[ARG_LOCALE] ?: DEFAULT_LOCALE),
                     out = getRootPath().resolve(it[ARG_OUT] ?: OUT_ROOT),
                     open = it[ARG_OPEN].toBoolean()
                 ).start()
