@@ -1,7 +1,7 @@
 @file:Suppress("SpellCheckingInspection")
 
 import org.jetbrains.kotlin.gradle.utils.extendsFrom
-import sass.embedded_protocol.EmbeddedSass
+//import sass.embedded_protocol.EmbeddedSass
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,9 +19,9 @@ description = projectDescription
 extra["projectBuild"] = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
 
 plugins {
-    kotlin("jvm") version "1.9.23"
-    id("io.freefair.sass-java") version "8.1.0"
-    id("io.freefair.sass-webjars") version "8.1.0"
+    kotlin("jvm") version "2.0.20"
+    id("io.freefair.sass-java") version "8.10"
+    id("io.freefair.sass-webjars") version "8.10"
     application
 }
 
@@ -85,7 +85,7 @@ tasks.processResources {
 @Suppress("UnstableApiUsage")
 sass {
     omitSourceMapUrl.set(false)
-    outputStyle.set(EmbeddedSass.OutputStyle.EXPANDED)
+//    outputStyle.set(EmbeddedSass.OutputStyle.EXPANDED)
     sourceMapContents.set(false)
     sourceMapEmbed.set(false)
     sourceMapEnabled.set(true)
